@@ -1,5 +1,5 @@
 # Dockerfile
-FROM node:24.0.7
+FROM node:24
 
 # Crear directorio de la aplicación
 WORKDIR /usr/src/app
