@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        nodejs "Node24"
+        nodejs "Node25"
         dockerTool "Dockertool" 
     }
 
@@ -15,7 +15,8 @@ pipeline {
 
         stage('Ejecutar tests') {
             steps {
-                sh 'npm test'
+                sh 'chmod +x ./node_modules/.bin/jest'
+                sh 'npm test -- --ci --runInBand'
             }
         }
 
