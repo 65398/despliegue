@@ -11,7 +11,7 @@ COPY index.js .
 # Instalar dependencias
 RUN npm install
 
-#Copiar el resto de archivos
+# Copiar el resto de los archivos
 COPY users.json .
 
 # Exponer el puerto de la aplicación

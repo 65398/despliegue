@@ -1,15 +1,7 @@
 [
-<<<<<<< HEAD
-    {
-    "id": "1", 
-    "name": "Andres Cobena",
-    "email": "pedro.cobena@uleam.edu.ec"
-    }
-=======
   {
     "id": "1",
     "name": "Andres Cobena",
     "email": "pedro.cobena@uleam.edu.ec"
   }
->>>>>>> 447ee7f (Primer commit del proyecto)
 ]
