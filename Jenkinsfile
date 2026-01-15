@@ -3,7 +3,7 @@ pipeline {
 
     tools {
         nodejs "Node25"
-        dockerTool "Dockertool" 
+        dockerTool "Dockertool"
     }
 
     stages {
@@ -15,7 +15,7 @@ pipeline {
 
         stage('Ejecutar tests') {
             steps {
-                sh 'chmod +x ./node_modules/.bin/jest'
+                // Ejecuta Jest en modo CI
                 sh 'npm test -- --ci --runInBand'
             }
         }
@@ -25,7 +25,10 @@ pipeline {
                 expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
             }
             steps {
-                sh 'docker build -t hola-mundo-node:latest .'
+                script {
+                    // Construye la imagen usando el plugin Docker Pipeline
+                    docker.build("hola-mundo-node:latest")
+                }
             }
         }
 
@@ -34,11 +37,18 @@ pipeline {
                 expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
             }
             steps {
-                sh '''
-                    docker stop hola-mundo-node || true
-                    docker rm hola-mundo-node || true
-                    docker run -d --name hola-mundo-node -p 3000:3000 hola-mundo-node:latest
-                '''
+                script {
+                    // Detiene y elimina contenedor previo si existe
+                    try {
+                        sh 'docker stop hola-mundo-node || true'
+                        sh 'docker rm hola-mundo-node || true'
+                    } catch (err) {
+                        echo "No había contenedor previo"
+                    }
+
+                    // Ejecuta el contenedor con el puerto 3000 expuesto
+                    docker.image("hola-mundo-node:latest").run("-p 3000:3000 --name hola-mundo-node")
+                }
             }
         }
     }
